@@ -9,7 +9,7 @@
  */
 
 #include <string.h>
-#include "stm32f1xx.h"
+#include <stm32f1xx.h>
 #define TIMEOUT 		10
 #define BUFFER_SIZE 	4096
 
@@ -23,6 +23,19 @@ void send_char(char c) {
 int __io_putchar(int ch) {
 	send_char(ch);
 	return ch;
+}
+
+int adc_read(uint32_t channel) {
+	ADC_ChannelConfTypeDef adc_ch;
+	adc_ch.Channel = channel;
+	adc_ch.Rank = ADC_REGULAR_RANK_1;
+	adc_ch.SamplingTime = ADC_SAMPLETIME_13CYCLES_5;
+	HAL_ADC_ConfigChannel(&adc, &adc_ch);
+
+	HAL_ADC_Start(&adc);
+	HAL_ADC_PollForConversion(&adc, 1000);
+
+	return HAL_ADC_GetValue(&adc);
 }
 
 int main(void) {
@@ -46,6 +59,12 @@ int main(void) {
 	gpio.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOA, &gpio);
 /*------------------------------LD2 end------------------------------*/
+/*---------------------config analog inputs start--------------------*/
+	gpio.Mode = GPIO_MODE_ANALOG;
+	gpio.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+	HAL_GPIO_Init(GPIOA, &gpio);
+/*----------------------config analog inputs end---------------------*/
+
 	gpio.Pin = GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9;
 	gpio.Mode = GPIO_MODE_AF_PP;
 	gpio.Pull = GPIO_NOPULL;
@@ -82,7 +101,7 @@ int main(void) {
 /*-----------------------adc clock config end------------------------*/
 /*-------------------------adc config start--------------------------*/
 	adc.Instance = ADC1;
-	adc.Init.ContinuousConvMode = ENABLE;
+	adc.Init.ContinuousConvMode = DISABLE;
 	adc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
 	adc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
 	adc.Init.ScanConvMode = ADC_SCAN_DISABLE;
@@ -91,20 +110,19 @@ int main(void) {
 	adc.Init.NbrOfDiscConversion= 1;
 	HAL_ADC_Init(&adc);
 /*--------------------------adc config end---------------------------*/
-/*------------------------adc ch config start-------------------------*/
-	ADC_ChannelConfTypeDef adc_ch;
-	adc_ch.Channel = ADC_CHANNEL_17;
-	adc_ch.Rank = ADC_REGULAR_RANK_1;
-	adc_ch.SamplingTime = ADC_SAMPLETIME_13CYCLES_5;
-	HAL_ADC_ConfigChannel(&adc, &adc_ch);
-/*-------------------------adc ch config end--------------------------*/
 
 	HAL_ADCEx_Calibration_Start(&adc);
 	HAL_ADC_Start(&adc);
 
 	while (1) {
-		uint32_t value = HAL_ADC_GetValue(&adc);
-		printf("Adc = %ld (%.3fV)\r\n", value, value * 3.3f / 4096.0f);
+		uint16_t value = adc_read(ADC_CHANNEL_0);
+		float v = (float)value * 3.3f / 4096.0f;
+		printf("ADC0 = %d (%.3fV)    ", value, v);
+
+		value = adc_read(ADC_CHANNEL_1);
+		v = (float)value * 3.3f / 4096.0f;
+		printf("ADC1 = %d (%.3fV)\n", value, v);
+		HAL_Delay(500);
 	}
 
 }

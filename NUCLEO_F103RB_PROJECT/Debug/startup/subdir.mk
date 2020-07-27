@@ -15,7 +15,7 @@ startup/%.o: ../startup/%.s
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU GCC Assembler'
 	@echo $(PWD)
-	arm-none-eabi-as -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -I"C:/Users/kw131/workspace/NUCLEO_F103RB_PROJECT_kopie/ADC/NUCLEO_F103RB_PROJECT/HAL_Driver/Inc/Legacy" -I"C:/Users/kw131/workspace/NUCLEO_F103RB_PROJECT_kopie/ADC/NUCLEO_F103RB_PROJECT/Utilities/STM32F1xx_Nucleo" -I"C:/Users/kw131/workspace/NUCLEO_F103RB_PROJECT_kopie/ADC/NUCLEO_F103RB_PROJECT/inc" -I"C:/Users/kw131/workspace/NUCLEO_F103RB_PROJECT_kopie/ADC/NUCLEO_F103RB_PROJECT/CMSIS/device" -I"C:/Users/kw131/workspace/NUCLEO_F103RB_PROJECT_kopie/ADC/NUCLEO_F103RB_PROJECT/CMSIS/core" -I"C:/Users/kw131/workspace/NUCLEO_F103RB_PROJECT_kopie/ADC/NUCLEO_F103RB_PROJECT/HAL_Driver/Inc" -g -o "$@" "$<"
+	arm-none-eabi-as -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -I"C:/Users/kw131/git/STM32F103RB-NUCLEO_ADC/NUCLEO_F103RB_PROJECT/HAL_Driver/Inc/Legacy" -I"C:/Users/kw131/git/STM32F103RB-NUCLEO_ADC/NUCLEO_F103RB_PROJECT/Utilities/STM32F1xx_Nucleo" -I"C:/Users/kw131/git/STM32F103RB-NUCLEO_ADC/NUCLEO_F103RB_PROJECT/inc" -I"C:/Users/kw131/git/STM32F103RB-NUCLEO_ADC/NUCLEO_F103RB_PROJECT/CMSIS/device" -I"C:/Users/kw131/git/STM32F103RB-NUCLEO_ADC/NUCLEO_F103RB_PROJECT/CMSIS/core" -I"C:/Users/kw131/git/STM32F103RB-NUCLEO_ADC/NUCLEO_F103RB_PROJECT/HAL_Driver/Inc" -g -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

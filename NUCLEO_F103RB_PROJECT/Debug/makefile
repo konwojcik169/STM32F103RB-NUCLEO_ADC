@@ -31,10 +31,10 @@ endif
 all: NUCLEO_F103RB_PROJECT.elf
 
 # Tool invocations
-NUCLEO_F103RB_PROJECT.elf: $(OBJS) $(USER_OBJS) C:\Users\kw131\workspace\NUCLEO_F103RB_PROJECT_kopie\ADC\NUCLEO_F103RB_PROJECT/LinkerScript.ld
+NUCLEO_F103RB_PROJECT.elf: $(OBJS) $(USER_OBJS) C:\Users\kw131\git\STM32F103RB-NUCLEO_ADC\NUCLEO_F103RB_PROJECT/LinkerScript.ld
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU GCC Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -u _printf_float -T"C:/Users/kw131/workspace/NUCLEO_F103RB_PROJECT_kopie/ADC/NUCLEO_F103RB_PROJECT/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "NUCLEO_F103RB_PROJECT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -u _printf_float -T"C:/Users/kw131/git/STM32F103RB-NUCLEO_ADC/NUCLEO_F103RB_PROJECT/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "NUCLEO_F103RB_PROJECT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -lm
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
